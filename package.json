@@ -1,0 +1,27 @@
+{
+  "name": "ournotes-cache-exporter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build --configLoader runner",
+    "test": "node --experimental-strip-types --test src/core.test.ts src/file-info.test.ts",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@yume-chan/adb": "2.6.4",
+    "@yume-chan/adb-daemon-webusb": "2.3.2",
+    "@yume-chan/adb-credential-web": "2.1.0"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "vite": "6.4.1",
+    "@types/node": "22.19.0"
+  }
+}
+
