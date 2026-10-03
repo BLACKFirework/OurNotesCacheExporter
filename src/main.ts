@@ -1,3 +1,4 @@
+import './inventory';
 import './style.css';
 import {inspectFile, type FileInfo} from './file-info';
 type Provenance={platform:'android'|'ios'|'unknown';transport:'file_picker'|'webusb';exported_at:string|null;game_version:string|null};
