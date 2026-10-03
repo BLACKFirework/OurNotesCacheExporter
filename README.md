@@ -32,7 +32,7 @@ pnpm preview
 
 维护者也可在 Windows 解压后的独立目录运行 `./scripts/publish.ps1`；脚本需要本机 GitHub CLI 已登录，且不会 force push。脚本准备完成，未在本环境执行。
 
-预期网址为 `https://blackfirework.github.io/OurNotesCacheExporter/`；网址只有实际部署完成后才可用。
+已发布网址：[OurNotes Cache Exporter](https://blackfirework.github.io/OurNotesCacheExporter/)。2026-10-04 首次部署成功；本站线上实机 WebUSB 取包仍待验证。
 
 公开资源中不得包含私有解码配置、真实缓存、账号库存、上传凭据或设备标识。所有第三方许可保留在 `public/THIRD_PARTY_NOTICES.txt`。原始导出逻辑沿用既有实现；此仓库不携带游戏解密实现。
 
@@ -41,4 +41,3 @@ pnpm preview
 如果需要解码、卡库预览、QQ 绑定与数据库导入，需要另行部署明确授权的后端。当前内容安全策略禁止页面发起网络数据请求，不存在隐藏上传。接入时需一起配置 API 来源、权限和 UI，不要只修改接口地址。
 
 网页取包不等于完整账号导入。账号归属、数据新鲜度、区段完整性需要独立证据。
-
