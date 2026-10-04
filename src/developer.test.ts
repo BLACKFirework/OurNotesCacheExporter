@@ -28,5 +28,7 @@ test('brand mark uses the approved motifs without a waterdrop or shizuku glyph',
   const logo = readFileSync(new URL('../public/shizukubot-logo.svg', import.meta.url), 'utf8');
   assert.match(logo, /id="plaid"/);
   assert.match(logo, /id="heart"/);
+  assert.match(logo, /id="lavender"/);
+  assert.match(logo, /id="gold"/);
   assert.doesNotMatch(logo, /waterdrop|雫/i);
 });

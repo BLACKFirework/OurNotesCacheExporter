@@ -31,7 +31,7 @@ ShizukuBot 是面向 **BanG Dream! Our Notes** 台港澳玩家的非官方 QQ �
 - 本地 QQ bot 与完整绑定后端目前需要后端仓库权限。
 - 页面只给出变量名和占位值，不包含真实 QQ、token、密码、ticket 或生产运行数据。
 
-品牌标志位于 [`public/shizukubot-logo.svg`](public/shizukubot-logo.svg)，使用浅紫格纹、奶油粉爱心、黑色发夹和蝴蝶结；设计不使用水滴或“雫”字形。使用规则见 [`docs/BRAND.md`](docs/BRAND.md)。
+品牌标志位于 [`public/shizukubot-logo.svg`](public/shizukubot-logo.svg)，使用浅紫格纹、奶油粉爱心、黑色发夹、薰衣草紫蝴蝶结和金色细节；设计不使用水滴或“雫”字形。使用规则见 [`docs/BRAND.md`](docs/BRAND.md)。
 
 ## 本地开发
 
