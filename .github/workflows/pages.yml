@@ -24,7 +24,7 @@ jobs:
         run: npm install --global pnpm@11.19.0
       - name: Validate production API origin
         env:
-          SHIZUKUBOT_BACKEND_ORIGIN: ${{ vars.SHIZUKUBOT_BACKEND_ORIGIN }}
+          SHIZUKUBOT_BACKEND_ORIGIN: ${{ vars.SHIZUKUBOT_BACKEND_ORIGIN || vars.OURNOTES_BACKEND_ORIGIN }}
         run: node --input-type=module -e "const value=process.env.SHIZUKUBOT_BACKEND_ORIGIN||''; let url; try{url=new URL(value)}catch{throw Error('SHIZUKUBOT_BACKEND_ORIGIN is missing or invalid')} if(url.origin!==value||url.protocol!=='https:')throw Error('SHIZUKUBOT_BACKEND_ORIGIN must be an exact HTTPS origin')"
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -32,7 +32,7 @@ jobs:
         run: pnpm test
       - name: Build production bundle
         env:
-          VITE_API_ORIGIN: ${{ vars.SHIZUKUBOT_BACKEND_ORIGIN }}
+          VITE_API_ORIGIN: ${{ vars.SHIZUKUBOT_BACKEND_ORIGIN || vars.OURNOTES_BACKEND_ORIGIN }}
         run: pnpm build
       - name: Check public bundle
         run: pnpm check:public

@@ -13,7 +13,7 @@
 ## 发布门禁
 
 1. 后端生产进程以 production 环境和独立运行目录启动，`/healthz` 返回 `service=ournotes-binding` 与 `product=ShizukuBot`。
-2. 在仓库 Actions variables 设置精确 HTTPS origin `SHIZUKUBOT_BACKEND_ORIGIN`，不得含路径、query 或 fragment。
+2. 在仓库 Actions variables 设置精确 HTTPS origin `SHIZUKUBOT_BACKEND_ORIGIN`，不得含路径、query 或 fragment。迁移期间 workflow 可读取旧变量 `OURNOTES_BACKEND_ORIGIN`，完成切换后删除旧变量。
 3. 在本地运行 `pnpm test`、带同一 origin 的 `pnpm build`、`pnpm check:public`。
 4. 合并经过审阅的改动。普通 main 提交不会部署。
 5. 建立 `shizukubot-v*` 标签，或人工运行 `Release ShizukuBot Pages` workflow。
