@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="ShizukuBot 开发者与本地自建指南：架构、前端开发、OneBot 本地运行、绑定服务和发布边界。">
+  <link rel="icon" type="image/svg+xml" href="./shizukubot-logo.svg">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+  <meta name="color-scheme" content="light"><title>ShizukuBot · 开发者与自建</title>
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="./" aria-label="返回 ShizukuBot 玩家首页"><img class="brand-logo" src="./shizukubot-logo.svg" alt=""><span>ShizukuBot<span class="brand-sub">开发者与自建</span></span></a><nav aria-label="开发者页面导航"><a href="./">玩家首页</a><a href="#readiness">可用范围</a><a href="#architecture">架构</a><a href="#local-bot">本地 bot</a><a href="#release">发布</a></nav></header>
+<main id="top">
+  <section class="hero developer-hero">
+    <div class="hero-copy"><p class="eyebrow"><span class="dot"></span>面向维护者、贡献者与自建用户</p><h1>从本地调试，<br>到自己的 QQ bot。</h1><p class="lede">这里说明真实组件、当前自建成熟度和最短启动路径。公开前端可以直接克隆；完整 bot 与绑定后端目前只供已有后端仓库权限的协作者运行。</p><div class="hero-tags"><span>OneBot v11</span><span>NapCat</span><span>本地数据根</span><span>dev / test / prod 隔离</span></div><a class="button primary hero-button" href="#readiness">先看哪些能自建</a></div>
+    <aside class="hero-card"><div class="hero-card-top"><span class="small-label">自建成熟度</span><span class="badge ok">开发者预览</span></div><ul class="support-list"><li><strong>可直接使用：</strong>Pages 前端、本地构建、WebUSB 与文件检查。</li><li><strong>协作者可运行：</strong>OneBot bot、谱面/算分、私聊绑定与本地后端。</li><li><strong>尚未公开发行：</strong>完整后端源码包、主数据与一键部署镜像。</li></ul><p class="muted small">本页不会生成 OneBot token、账号凭据或生产隧道。示例值必须替换并保留在本机。</p></aside>
+  </section>
+
+  <section class="panel" id="readiness"><div class="section-heading"><div><p class="eyebrow">先选择目标</p><h2>三种自建范围</h2></div></div><div class="source-grid developer-grid"><article><span class="badge ok">公开可运行</span><h3>只运行网页工具</h3><p>适合修改文案、布局、WebUSB 导出和本地文件检查。无需 QQ、Python、游戏账号或后端 Secret。</p><p><strong>仓库：</strong><a class="text-link" href="https://github.com/BLACKFirework/OurNotesCacheExporter">OurNotesCacheExporter</a></p></article><article><span class="badge">需要后端仓库权限</span><h3>本地 QQ bot</h3><p>适合自己的 QQ 账号运行谱面、算分、帮助与已有命令。需要 Python、NapCat 和 OneBot v11 WebSocket。</p><p>不启用绑定服务时，不需要公开 HTTPS 隧道。</p></article><article><span class="badge">维护者测试中</span><h3>完整绑定与卡库</h3><p>在本地 bot 基础上增加一次性 ticket、Pages 跳转、HTTPS 后端、私有运行目录和可选数据来源。</p><p>当前不是面向公众的一键自建包；缺少后端仓库权限时无法完整复现。</p></article></div></section>
+
+  <section class="panel" id="architecture"><div class="section-heading"><div><p class="eyebrow">组件关系</p><h2>完整链路长这样</h2></div></div><div class="architecture" role="img" aria-label="QQ 经 NapCat OneBot 连接本地 bot，bot 发放一次性链接，Pages 经 HTTPS 访问绑定后端，后端保存私有运行数据"><div><strong>QQ</strong><span>用户命令</span></div><b>→</b><div><strong>NapCat</strong><span>OneBot v11</span></div><b>→</b><div><strong>ShizukuBot</strong><span>命令与图片</span></div><b>→</b><div><strong>一次性链接</strong><span>十分钟 ticket</span></div><b>→</b><div><strong>Pages</strong><span>公开静态页</span></div><b>→</b><div><strong>绑定后端</strong><span>私有数据根</span></div></div><p class="section-copy">最小本地 bot 只需要前三个组件。卡库绑定才需要 Pages、HTTPS 后端和持久化目录。公开 API 地址不是认证；真正授权来自一次性 ticket、会话和资源检查。</p></section>
+
+  <section class="panel" id="frontend"><div class="section-heading"><div><p class="eyebrow">路径 A · 公开仓库</p><h2>在本地运行 Pages 前端</h2></div><span class="badge ok">可复现</span></div><p class="section-copy">准备 Node.js 24+ 与 pnpm 11.19.0。没有后端时，绑定入口会诚实显示“尚未配置”，其余静态说明、WebUSB 和文件检查仍可使用。</p><pre class="code-block"><code>git clone https://github.com/BLACKFirework/OurNotesCacheExporter.git
+cd OurNotesCacheExporter
+pnpm install --frozen-lockfile
+pnpm test
+pnpm dev</code></pre><p class="muted small">生产构建前必须设置精确 HTTPS origin；不要把本机地址、账号、token、用户文件或临时 ticket 提交到仓库。</p></section>
+
+  <section class="panel" id="local-bot"><div class="section-heading"><div><p class="eyebrow">路径 B · 仓库协作者</p><h2>运行自己的本地 QQ bot</h2></div><span class="badge">需要后端源码</span></div><ol class="timeline developer-steps"><li><span>1</span><div><strong>准备 QQ 运行端</strong><p>安装并登录 NapCat；建议使用专门的 bot QQ，先在本机测试。</p></div></li><li><span>2</span><div><strong>配置 OneBot</strong><p>新增 WebSocket Server，监听 127.0.0.1:3001，消息格式选 array。</p></div></li><li><span>3</span><div><strong>安装依赖</strong><p>在后端仓库的独立虚拟环境安装 bot 与预览 requirements。</p></div></li><li><span>4</span><div><strong>设置私有环境</strong><p>填写自己的 OWNER QQ、OneBot URL 和可选 token，不写进源码。</p></div></li><li><span>5</span><div><strong>启动并实测</strong><p>启动 runner，从另一个 QQ 发送 /help、谱面或算分命令。</p></div></li></ol><pre class="code-block"><code>python -m venv .venv
+.\.venv\Scripts\python -m pip install -r requirements-bot.txt -r requirements-preview.txt
+$env:OURNOTES_OWNER_QQ_IDS = "你的QQ号"
+$env:OURNOTES_ONEBOT_URL = "ws://127.0.0.1:3001"
+$env:OURNOTES_ONEBOT_TOKEN = "你在NapCat中设置的token"
+.\.venv\Scripts\python -m bot.live_onebot</code></pre><p class="notice visible"><strong>当前限制：</strong>完整后端仓库尚未作为公开发行包提供。没有仓库权限的开发者目前只能运行公开前端，不能按本页复现 bot 的全部命令与主数据。</p></section>
+
+  <section class="panel" id="binding-backend"><div class="section-heading"><div><p class="eyebrow">路径 C · 完整绑定</p><h2>增加卡库绑定服务</h2></div><span class="badge">进阶</span></div><div class="check-grid"><article><h3>必须准备</h3><ul><li>独立的 dev / test / prod 数据根</li><li>生产 HTTPS origin 与受控 CORS</li><li>一次性 ticket、会话和通知队列</li><li>定期备份与可回滚提交</li></ul></article><article><h3>仅按来源准备</h3><ul><li>BHK 登录：只在私有后端接收凭据</li><li>Moenotes：自己的 client ID 与 Secret</li><li>文件导入：明确大小和格式上限</li><li>无需用到的来源不要配置</li></ul></article><article><h3>禁止公开</h3><ul><li>OneBot token、API Secret 和密码</li><li>QQ 关联、快照、上传与数据库</li><li>完整 ticket、Authorization 和原始响应</li><li>生产日志与本机绝对路径</li></ul></article></div><p class="section-copy">前端发布不会启动或重启本地后端。临时隧道变化后，要更新 Actions repository variable 并重新发布；地址公开可见，不能代替鉴权。</p></section>
+
+  <section class="panel" id="release"><div class="section-heading"><div><p class="eyebrow">维护者流程</p><h2>测试通过后再发布</h2></div></div><ol class="release-list"><li><strong>独立 worktree：</strong>从目标提交建分支，不在生产目录直接开发。</li><li><strong>合成测试：</strong>测试数据根不能读取生产快照或通知真实 QQ。</li><li><strong>门禁：</strong>后端相关测试、前端测试、类型检查、生产构建与公开扫描全部通过。</li><li><strong>界面验收：</strong>检查桌面、手机、离线、无效、过期、确认和完成状态。</li><li><strong>版本发布：</strong>合并公开前端后创建 <code>shizukubot-v*</code> 标签，由 Actions 部署 Pages。</li><li><strong>线上核对：</strong>确认页面版本、后端健康兼容性和一次性链接，不把本地通过当成生产成功。</li></ol></section>
+
+  <section class="guide" id="faq"><div class="section-heading"><div><p class="eyebrow">开发者 FAQ</p><h2>开始前需要知道</h2></div></div><div class="faq"><details><summary>能不能只在自己的 QQ 上运行？</summary><p>可以。NapCat 登录自己的 bot QQ，本地 runner 连接它的 OneBot WebSocket 即可。建议先使用专门账号并只在本机测试；OWNER 列表应只填你控制的 QQ。</p></details><details><summary>为什么不直接给 Docker 一键部署？</summary><p>完整后端依赖尚未从研究数据、运行目录和私有配置中整理成干净公开包。现在发布镜像会让人误以为主数据、认证来源和卡库导入都能公开复现。</p></details><details><summary>必须一直开着电脑吗？</summary><p>本地 OneBot runner、绑定后端和临时隧道都依赖运行它们的电脑在线。只有静态 Pages 可以持续访问。</p></details><details><summary>开发者页面会暴露生产配置吗？</summary><p>不会。本页只列出变量名称和占位值。生产 origin 存在 GitHub Actions repository variable；Secret、token、用户数据和运行目录不进入公开构建。</p></details></div></section>
+</main>
+<footer><span>ShizukuBot · 开发者与自建</span><span><a href="./">玩家首页</a> · <a href="https://github.com/BLACKFirework/OurNotesCacheExporter">前端源码</a> · <a href="./PRIVACY.md">隐私说明</a></span></footer>
+</body></html>

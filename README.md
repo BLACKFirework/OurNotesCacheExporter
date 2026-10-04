@@ -23,6 +23,16 @@ ShizukuBot 是面向 **BanG Dream! Our Notes** 台港澳玩家的非官方 QQ �
 
 详细说明见网页中的 [隐私说明](public/PRIVACY.md)。
 
+## 开发者与自建
+
+公开站点包含独立的 [开发者与自建页面](developer.html)，说明组件关系、前端本地开发、NapCat / OneBot 本地 bot 路径、绑定后端边界和发布门禁。
+
+- 公开前端可以直接克隆、测试和构建。
+- 本地 QQ bot 与完整绑定后端目前需要后端仓库权限。
+- 页面只给出变量名和占位值，不包含真实 QQ、token、密码、ticket 或生产运行数据。
+
+品牌标志位于 [`public/shizukubot-logo.svg`](public/shizukubot-logo.svg)，使用浅紫格纹、奶油粉爱心、黑色发夹和蝴蝶结；设计不使用水滴或“雫”字形。使用规则见 [`docs/BRAND.md`](docs/BRAND.md)。
+
 ## 本地开发
 
 需要 Node.js 24+ 与 pnpm 11.19.0：

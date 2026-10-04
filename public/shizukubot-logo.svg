@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">ShizukuBot logo</title>
+  <desc id="desc">浅紫格纹背景上的奶油粉爱心、黑色发夹与蝴蝶结图形</desc>
+  <defs>
+    <linearGradient id="bg" x1="52" y1="24" x2="462" y2="488" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fffdfb"/>
+      <stop offset=".56" stop-color="#f5f0ff"/>
+      <stop offset="1" stop-color="#e8e4ff"/>
+    </linearGradient>
+    <linearGradient id="heart" x1="154" y1="154" x2="362" y2="378" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff1e8"/>
+      <stop offset=".52" stop-color="#f4d2cb"/>
+      <stop offset="1" stop-color="#e8b5c4"/>
+    </linearGradient>
+    <pattern id="plaid" width="56" height="56" patternUnits="userSpaceOnUse">
+      <path d="M0 10h56M0 46h56M10 0v56M46 0v56" stroke="#9999ff" stroke-width="3" opacity=".12"/>
+      <path d="M0 28h56M28 0v56" stroke="#b9aaf2" stroke-width="1.5" opacity=".18"/>
+    </pattern>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#7266a7" flood-opacity=".2"/>
+    </filter>
+  </defs>
+  <rect x="18" y="18" width="476" height="476" rx="132" fill="url(#bg)"/>
+  <rect x="18" y="18" width="476" height="476" rx="132" fill="url(#plaid)"/>
+  <rect x="27" y="27" width="458" height="458" rx="123" fill="none" stroke="#9999ff" stroke-width="9" opacity=".75"/>
+  <path d="M256 398c-20-18-119-86-119-165 0-54 37-90 83-90 31 0 55 16 70 41 15-25 39-41 70-41 46 0 83 36 83 90 0 79-99 147-119 165-20 18-48 18-68 0Z" fill="url(#heart)" stroke="#8f83df" stroke-width="12" stroke-linejoin="round" filter="url(#shadow)" transform="translate(-34)"/>
+  <path d="M250 190c-19-28-50-39-77-28-34 14-46 52-32 82" fill="none" stroke="#fffaf6" stroke-width="16" stroke-linecap="round" opacity=".78"/>
+  <g fill="none" stroke="#37383d" stroke-width="15" stroke-linecap="round">
+    <path d="M111 180l60 25M104 211l60 25M109 243l52 22"/>
+    <path d="M401 180l-60 25M408 211l-60 25M403 243l-52 22"/>
+  </g>
+  <g transform="translate(256 292)" stroke="#34353a" stroke-width="10" stroke-linejoin="round">
+    <path d="M-9-5c-30-35-67-43-91-18-13 14-10 35 4 51 22 24 58 13 87-9Z" fill="#34353a"/>
+    <path d="M9-5c30-35 67-43 91-18 13 14 10 35-4 51-22 24-58 13-87-9Z" fill="#34353a"/>
+    <circle r="24" fill="#f0df79"/>
+    <path d="M-15 19l-16 58 31-16 31 16-16-58" fill="#4b4c52"/>
+  </g>
+  <g fill="#fff" stroke="#9999ff" stroke-width="5">
+    <path d="M96 106l9 21 21 9-21 9-9 21-9-21-21-9 21-9Z"/>
+    <path d="M415 350l7 16 16 7-16 7-7 16-7-16-16-7 16-7Z"/>
+  </g>
+</svg>

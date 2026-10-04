@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="ShizukuBot：通过 QQ 一次性链接导入并查看 BanG Dream! Our Notes 卡库。">
+  <link rel="icon" type="image/svg+xml" href="./shizukubot-logo.svg">
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
   <meta name="color-scheme" content="light"><title>ShizukuBot · 卡库绑定与工具</title>
 </head>
 <body>
-<header class="topbar"><a class="brand" href="#top" aria-label="ShizukuBot 首页"><span class="brand-icon" aria-hidden="true">雫</span><span>ShizukuBot<span class="brand-sub">Our Notes 玩家工具</span></span></a><nav aria-label="页面导航"><a href="#start">快速开始</a><a href="#sources">导入来源</a><a href="#exporter">安卓导出</a><a href="#help">帮助</a></nav></header>
+<header class="topbar"><a class="brand" href="#top" aria-label="ShizukuBot 首页"><img class="brand-logo" src="./shizukubot-logo.svg" alt=""><span>ShizukuBot<span class="brand-sub">Our Notes 玩家工具</span></span></a><nav aria-label="页面导航"><a href="#start">快速开始</a><a href="#sources">导入来源</a><a href="#exporter">安卓导出</a><a href="#help">帮助</a><a href="./developer.html">开发者</a></nav></header>
 <main id="top">
   <section class="hero">
     <div class="hero-copy"><p class="eyebrow"><span class="dot"></span>QQ 私聊绑定 · 台港澳卡库</p><h1>从一条私聊链接，<br>查看自己的卡库。</h1><p class="lede">在 QQ 向 ShizukuBot 发送 <code>on绑定</code>，打开一次性链接，选择适合你的导入来源，核对预览后再确认。</p><div class="hero-tags"><span>一次性链接</span><span>确认前不替换旧卡库</span><span>不在 Pages 输入密码</span></div><a class="button primary hero-button" href="#start">查看五步流程</a></div>
@@ -21,5 +22,5 @@
   <section id="file-info" class="panel"><div class="section-heading"><div><p class="eyebrow">本地文件检查</p><h2>查看大小与 SHA-256</h2></div><span class="badge">不上传</span></div><p class="section-copy">哈希只证明文件字节一致，不能证明账号归属、完整性或新鲜度。</p><div class="file-controls"><label class="field-label" for="cache-file">选择文件</label><input id="cache-file" type="file"><label class="field-label" for="platform">来源平台</label><select id="platform"><option value="unknown">未知</option><option value="android">安卓</option><option value="ios">iOS / iPadOS</option></select><div class="button-row"><button id="inspect-file" class="button secondary">检查所选文件</button><button id="inspect-export" class="button quiet">检查刚导出的文件</button></div></div><pre class="output" id="file-status" role="status" aria-live="polite">尚未选择文件。选择 iOS 来源不会自动证明文件格式兼容。</pre></section>
   <section id="help" class="guide"><div class="section-heading"><div><p class="eyebrow">帮助与数据处理</p><h2>遇到问题时先看这里</h2></div></div><div class="faq"><details><summary>页面显示后端离线</summary><p>临时隧道可能已变化或维护者电脑不在线。刷新后仍失败，请稍后从 QQ 获取新链接；不要反复登录。</p></details><details><summary>链接过期、已使用或权限拒绝</summary><p>链接只能由目标 QQ 私聊取得、有效期十分钟且只能完成一次。回 QQ 重新发送 on绑定。Moenotes 权限拒绝时需在平台核对授权后再取新链接。</p></details><details><summary>绑定成功但 QQ 没收到通知</summary><p>完成页会区分“绑定成功”和“通知待重试”。先在 QQ 发送 onmyinfo 查询，不要重复绑定。</p></details><details><summary>如何更新或解绑卡库</summary><p>更新时重新 on绑定、读取并确认。on解绑只解除当前 QQ 与本地资源的关联；Moenotes 撤销授权只阻止未来读取；已下载历史数据不会自动删除。</p></details><details><summary>数据和凭据如何处理</summary><p>Pages 不接收账号密码。独立后端会临时接收 BHK 登录凭据但不保存。确认前失败不会替换旧快照。绑定资源、QQ 关联和运行日志保持在私有运行目录，不进入公开仓库。</p></details><details><summary>USB 找不到设备或被占用</summary><p>确认数据线、手机解锁、USB 调试与授权；使用桌面 Chrome/Edge。其他 ADB 工具或模拟器可能占用接口，本页不会自动关闭它们。</p></details></div></section>
 </main>
-<footer><span>ShizukuBot · 非官方玩家工具</span><span><a href="./PRIVACY.md">隐私说明</a> · <a href="./THIRD_PARTY_NOTICES.txt">第三方许可</a></span></footer><script type="module" src="/src/main.ts"></script>
+<footer><span>ShizukuBot · 非官方玩家工具</span><span><a href="./developer.html">开发者 / 自建</a> · <a href="./PRIVACY.md">隐私说明</a> · <a href="./THIRD_PARTY_NOTICES.txt">第三方许可</a></span></footer><script type="module" src="/src/main.ts"></script>
 </body></html>
