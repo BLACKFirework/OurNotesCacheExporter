@@ -4,4 +4,6 @@ dist/
 *.bin
 *.private.json
 .env*
+!.env.example
+backend-origin.local.json
 

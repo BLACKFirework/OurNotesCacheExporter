@@ -1,6 +1,6 @@
 {
-  "name": "ournotes-cache-exporter",
-  "version": "0.1.0",
+  "name": "shizukubot-web",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -10,6 +10,8 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build --configLoader runner",
+    "build:test": "tsc --noEmit && vite build --mode test --configLoader runner",
+    "check:public": "node --experimental-strip-types scripts/public-check.ts",
     "test": "node --experimental-strip-types --test src/core.test.ts src/file-info.test.ts src/inventory.test.ts",
     "preview": "vite preview --host 127.0.0.1"
   },

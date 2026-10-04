@@ -1,57 +1,47 @@
-# OurNotes Cache Exporter
+# ShizukuBot
 
-独立的静态缓存导出前端，供 GitHub Pages 托管。
+ShizukuBot 是面向 **BanG Dream! Our Notes** 台港澳玩家的非官方 QQ 工具。当前公开网页提供一次性绑定入口、数据来源说明、安卓缓存导出和本地文件检查；卡库预览与确认发生在独立 HTTPS 后端。
 
-## 当前能力
+## 玩家快速开始
 
-- 在电脑独立 Chrome / Edge 中通过 WebUSB 连接用户自己的安卓手机。
-- 明确选择候选文件后，有界读取原始缓存，验证稳定性并下载到电脑。
-- 浏览器内计算已选文件的字节数和 SHA-256。
-- 不上传文件、不解密缓存、不绑定 QQ、不修改游戏。
-- 已有一台 Android 16 实体手机的导出证据；此发布版的线上实机取包仍需另行验证。
-- iOS / iPadOS 普通取包路径尚未验证；手选文件并不代表格式已确认。
+1. 在 QQ 私聊 ShizukuBot 发送 `on绑定`。
+2. 打开机器人回复的十分钟一次性链接，不要转发。
+3. 选择一种适用来源：BHK 邮箱账号、缓存/养成文件或已授权的 Moenotes 存档。
+4. 核对昵称、UID（可能未知）、卡库数量、来源、取得时间和缺失字段。
+5. 明确确认后回 QQ 发送 `onmyinfo`；更新卡库时重新导入，解除关联使用 `on解绑`。
 
-## 本地开发与检查
+## 当前能力边界
 
-Node.js 24+，pnpm 11.19.0：
+- **可用：**QQ 一次性绑定、预览后确认、onmyinfo、解绑、安卓 WebUSB 辅助导出。
+- **测试中：**BHK 邮箱读取、缓存/养成文件、Moenotes 授权存档。
+- **暂不支持：**Google/Apple 登录、iOS 日常自动同步、从游戏服务器实时同步。
+- 服务依赖维护者电脑与临时 HTTPS 隧道在线。Pages 可访问不代表绑定后端在线。
 
-```sh
+### 凭据事实
+
+公开 Pages 没有账号密码表单，也不会收到密码。BHK 登录密码在独立后端页面输入：浏览器会把密码发给我们的后端，后端收到后只用于本次 SDK 登录，不保存。Moenotes 是第三方开放平台，不是游戏官方 OAuth；授权存档不等于实时同步。
+
+详细说明见网页中的 [隐私说明](public/PRIVACY.md)。
+
+## 本地开发
+
+需要 Node.js 24+ 与 pnpm 11.19.0：
+
+```powershell
 pnpm install --frozen-lockfile
 pnpm test
+$env:VITE_API_ORIGIN = 'https://binding-api.example.invalid'
 pnpm build
+pnpm check:public
 pnpm preview
 ```
 
-仅维护者构建时需要 Node / pnpm；普通用户打开已发布网页不需要安装这些开发工具。手机需要 USB 调试授权，电脑驱动和 WebUSB 兼容性需实际核对。其他 ADB 程序可能占用 USB 接口，本页不会关闭它们。
+后端 origin 必须是精确 HTTPS origin，不得包含路径、query 或 fragment。真实地址只放在未跟踪的 `.env.local` 或 GitHub Actions variable `SHIZUKUBOT_BACKEND_ORIGIN`；仓库中的 `.env.example` 只有占位符。
 
 ## 发布
 
-仓库建议：`BLACKFirework/OurNotesCacheExporter`（Public）。仅上传本项目内容，不能复制原 bot 仓库历史或运行时目录。
+生产 Pages 仓库是 `BLACKFirework/OurNotesCacheExporter`，保留已有仓库名与 URL。普通 main 提交不会自动部署；仅 `shizukubot-v*` 标签或人工运行 `Release ShizukuBot Pages` workflow 会触发发布。
 
-在 Settings → Pages → Build and deployment 中把 Source 设为 GitHub Actions。推送 main 或手动运行 Deploy GitHub Pages。workflow 只发布 dist，Vite 的相对 base 支持项目子路径。
+完整发布、回滚和环境隔离流程见 [维护者文档](docs/MAINTAINER_DEPLOYMENT.md)。`scripts/publish.ps1` 默认只运行门禁，显式 `-Publish` 才创建并推送标签；不会推送 main 或 force push。
 
-维护者也可在 Windows 解压后的独立目录运行 `./scripts/publish.ps1`；脚本需要本机 GitHub CLI 已登录，且不会 force push。脚本准备完成，未在本环境执行。
-
-已发布网址：[OurNotes Cache Exporter](https://blackfirework.github.io/OurNotesCacheExporter/)。2026-10-04 首次部署成功；本站线上实机 WebUSB 取包仍待验证。
-
-公开资源中不得包含私有解码配置、真实缓存、账号库存、上传凭据或设备标识。所有第三方许可保留在 `public/THIRD_PARTY_NOTICES.txt`。原始导出逻辑沿用既有实现；此仓库不携带游戏解密实现。
-
-## 后续接入
-
-如果需要解码、卡库预览、QQ 绑定与数据库导入，需要另行部署明确授权的后端。当前内容安全策略禁止页面发起网络数据请求，不存在隐藏上传。接入时需一起配置 API 来源、权限和 UI，不要只修改接口地址。
-
-网页取包不等于完整账号导入。账号归属、数据新鲜度、区段完整性需要独立证据。
-
-## 一次性 QQ 绑定入口（2026-10-04）
-
-首页现在是 OurNotesBot 工具入口。先在 QQ 发 `on绑定`，从私聊链接进入；本站把片段中的临时 key 交给固定后端链接，清除本站地址中的片段。敏感登录、文件上传、预览和明确确认均在独立 HTTPS 后端完成；本站没有密码表单，不存网站会话，不加载第三方统计。`#complete` 仅为返回说明，不证明绑定成功。
-
-维护者在仓库 Actions variable `OURNOTES_BACKEND_ORIGIN` 设置已部署、可达的精确 HTTPS origin（无路径、query、fragment）；工作流将它传给 Vite `VITE_API_ORIGIN`。未配置时绑定链接明确显示不可用，桌面 USB 导出仍可用。不能填用户无法访问的 localhost/LAN 地址。后端保存目标 QQ、检查过期/撤销，只有确认才消费 key；未知游戏 UID 不阻止关联资源。
-
-发布：`pnpm test`、`pnpm build` 后正常提交推送 main，观察现有 Pages Actions。回滚使用 git revert 创建新提交并重新部署，勿重写历史。公开部署不等于后端、真实 QQ 或手机链路验收。15 项离线测试含无后端/固定目标/非法链接/无密码表单，原 WebUSB 测试保留。实际 iOS Safari/Android 窄屏仍需实机检查。
-
-## 共享临时后端联调
-
-可信地址保存在 `backend-origin.json`，由本机 `OurNotesBot/tools/start-binding-tunnel.ps1` 从实际 cloudflared 输出更新，不含 key 或凭据。VITE_API_ORIGIN / Actions变量可显式覆盖，空变量使用文件值。地址改变后测试、构建、提交推送并核对部署再发新链接；每次用户绑定不建隧道、不重新部署。停止隧道不会删除已保存资料。Quick Tunnel无持续在线保证；旧页面需重新从QQ链接进入。
-
-绑定链接先做不带Cookie/密钥的 `/healthz` 检查；离线隐藏进入按钮。敏感流程仍在后端同源页面，Pages不接收游戏密码或令牌。正式手机联调需QQ on绑定 → 手机打开链接 → 后端主动登录 → 预览并确认 → QQ完成回执 → onmyinfo。
+公开仓库不得包含真实缓存、QQ 号、卡库、登录凭据、一次性 key、设备标识、数据库或运行日志。第三方许可位于 [THIRD_PARTY_NOTICES.txt](public/THIRD_PARTY_NOTICES.txt)。

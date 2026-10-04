@@ -1,3 +1,4 @@
 {
-  "origin": "https://guild-tape-kids-lasting.trycloudflare.com"
+  "origin": "",
+  "deprecated": "Use an untracked .env.local or the SHIZUKUBOT_BACKEND_ORIGIN Actions variable."
 }
