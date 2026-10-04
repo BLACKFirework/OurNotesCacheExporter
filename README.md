@@ -49,3 +49,9 @@ pnpm preview
 维护者在仓库 Actions variable `OURNOTES_BACKEND_ORIGIN` 设置已部署、可达的精确 HTTPS origin（无路径、query、fragment）；工作流将它传给 Vite `VITE_API_ORIGIN`。未配置时绑定链接明确显示不可用，桌面 USB 导出仍可用。不能填用户无法访问的 localhost/LAN 地址。后端保存目标 QQ、检查过期/撤销，只有确认才消费 key；未知游戏 UID 不阻止关联资源。
 
 发布：`pnpm test`、`pnpm build` 后正常提交推送 main，观察现有 Pages Actions。回滚使用 git revert 创建新提交并重新部署，勿重写历史。公开部署不等于后端、真实 QQ 或手机链路验收。15 项离线测试含无后端/固定目标/非法链接/无密码表单，原 WebUSB 测试保留。实际 iOS Safari/Android 窄屏仍需实机检查。
+
+## 共享临时后端联调
+
+可信地址保存在 `backend-origin.json`，由本机 `OurNotesBot/tools/start-binding-tunnel.ps1` 从实际 cloudflared 输出更新，不含 key 或凭据。VITE_API_ORIGIN / Actions变量可显式覆盖，空变量使用文件值。地址改变后测试、构建、提交推送并核对部署再发新链接；每次用户绑定不建隧道、不重新部署。停止隧道不会删除已保存资料。Quick Tunnel无持续在线保证；旧页面需重新从QQ链接进入。
+
+绑定链接先做不带Cookie/密钥的 `/healthz` 检查；离线隐藏进入按钮。敏感流程仍在后端同源页面，Pages不接收游戏密码或令牌。正式手机联调需QQ on绑定 → 手机打开链接 → 后端主动登录 → 预览并确认 → QQ完成回执 → onmyinfo。
