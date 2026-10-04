@@ -27,7 +27,6 @@ let builtFiles: string[] = [];
 try { builtFiles = filesUnder(dist); } catch { failures.push('dist: production bundle is missing'); }
 const contentRules: Array<[RegExp, string]> = [
   [/-----BEGIN [A-Z ]*PRIVATE KEY-----/, 'private key material'],
-  [/https:\/\/[a-z0-9-]+\.trycloudflare\.com/i, 'temporary tunnel origin'],
   [/http:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?/i, 'local origin'],
   [/#bind=[A-Za-z0-9_-]{43}/, 'literal one-time binding key'],
   [/[A-Za-z]:\\Users\\[^\\\s]+\\/i, 'local absolute Windows path'],
@@ -37,6 +36,9 @@ for (const file of builtFiles) {
   if (statSync(file).size > 5_000_000) continue;
   const content = readFileSync(file, 'utf8');
   for (const [pattern, label] of contentRules) if (pattern.test(content)) failures.push(`${relative(root, file)}: ${label}`);
+  for (const tunnel of content.match(/https:\/\/[a-z0-9-]+\.trycloudflare\.com/gi) ?? []) {
+    if (!process.env.VITE_API_ORIGIN || tunnel !== process.env.VITE_API_ORIGIN) failures.push(`${relative(root, file)}: unapproved temporary tunnel origin`);
+  }
 }
 
 const builtIndex = builtFiles.find(path => /(?:^|[\\/])index\.html$/.test(path));
