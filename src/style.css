@@ -15,3 +15,5 @@ body{overflow-x:hidden}.hero>*,.hero-card,.panel,.source-grid>*,.timeline>*{min-
 @media(max-width:800px){.developer-grid,.check-grid{grid-template-columns:1fr}.developer-steps{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:620px){.developer-steps{grid-template-columns:1fr}.architecture{margin-right:-18px;padding-right:18px}.code-block{font-size:10px;padding:15px}.developer-hero{padding-top:34px}.developer-hero h1{font-size:32px}}
 .brand-logo{display:block;width:40px;height:40px;border-radius:12px;box-shadow:0 4px 12px #7769b528;flex:none}
+
+.source-grid code{overflow-wrap:anywhere;word-break:break-word}
