@@ -64,28 +64,12 @@ async function render(hash: string, origin = '', replies: Reply[] = [{}], contro
 const hash = `#bind=${'a'.repeat(43)}`;
 const origin = 'https://backend.example';
 
-test('Pages carries a declared T.G.W rank only in the handoff fragment', async () => {
-  const result = await render(hash, origin, [{}], AbortController, '8');
-  assert.equal(result.next.href, `${origin}/${hash}&tgw=8`);
-  assert.match(result.tgwStatus.textContent, /T.G.W 8 级/);
-  assert.equal(result.calls[0].url, `${origin}/healthz`);
-  assert.equal(result.calls[0].options.body, undefined);
-  assert.equal(result.calls.length, 1);
-});
-
-test('invalid rank blocks handoff and editing restores the correct fixed destination', async () => {
+test('cover hands off directly with no T.G.W form or rank gate', async () => {
   const result = await render(hash, origin);
-  result.tgw.value = '22';
-  result.tgw.oninput!();
-  assert.equal(result.next.href, '');
-  assert.equal(result.attributes.get('aria-disabled'), 'true');
-  result.tgw.value = '21';
-  result.tgw.oninput!();
-  assert.equal(result.next.href, `${origin}/${hash}&tgw=21`);
-  result.tgw.value = '';
-  result.tgw.oninput!();
   assert.equal(result.next.href, `${origin}/${hash}`);
-  assert.equal(result.attributes.has('aria-disabled'), false);
+  assert.equal(result.next.hidden, false);
+  const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  assert.doesNotMatch(html, /id="binding-tgw-/);
 });
 
 test('unconfigured backend never shows a working login link', async () => {
