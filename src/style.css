@@ -17,3 +17,4 @@ body{overflow-x:hidden}.hero>*,.hero-card,.panel,.source-grid>*,.timeline>*{min-
 .brand-logo{display:block;width:40px;height:40px;border-radius:12px;box-shadow:0 4px 12px #7769b528;flex:none}
 
 .source-grid code{overflow-wrap:anywhere;word-break:break-word}
+.binding-tgw{max-width:620px;margin:18px 0;padding:18px;border:1px solid #cfe0d8;border-radius:12px;background:#f3f8f5}.binding-tgw input{display:block;width:100%;max-width:300px;padding:11px 12px;margin-top:8px;border:1px solid #b8cfc2;border-radius:8px;background:white}.binding-tgw p{margin:9px 0 0}.button[aria-disabled=true]{opacity:.5;cursor:not-allowed;transform:none}

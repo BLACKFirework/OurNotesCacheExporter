@@ -7,12 +7,15 @@ import { runInNewContext } from 'node:vm';
 const code = stripTypeScriptTypes(readFileSync(new URL('./inventory.ts', import.meta.url), 'utf8')).replace('export {};', '');
 type Reply = 'network' | 'pending' | { status?: number; product?: string; body?: unknown; pendingBody?: boolean };
 
-async function render(hash: string, origin = '', replies: Reply[] = [{}], controller: typeof AbortController | null = AbortController) {
+async function render(hash: string, origin = '', replies: Reply[] = [{}], controller: typeof AbortController | null = AbortController, initialRank = '') {
   const status = { textContent: '' };
   const pillText = { textContent: '' };
   const dot = { className: '' };
   const pill = { dataset: {} as Record<string, string>, querySelector: (selector: string) => selector === '.dot' ? dot : pillText };
-  const next = { hidden: true, href: '' };
+  const attributes = new Map<string,string>();
+  const next = { hidden: true, href: '', removeAttribute(name: string) { attributes.delete(name); if (name === 'href') this.href = ''; }, setAttribute(name: string, value: string) { attributes.set(name,value); } };
+  const tgw = { value: initialRank, oninput: undefined as undefined | (() => void) };
+  const tgwStatus = { textContent: '' };
   const retry = { hidden: true, disabled: false, onclick: undefined as undefined | (() => void) };
   const calls: Array<{ url: string; options: RequestInit }> = [];
   const timers = new Map<number, { callback: () => void; delay: number }>();
@@ -44,11 +47,11 @@ async function render(hash: string, origin = '', replies: Reply[] = [{}], contro
     },
     location: { hash, pathname: '/OurNotesCacheExporter/', search: '' },
     history: { replaceState: (_a: unknown, _b: unknown, url: string) => { replaced = url; } },
-    document: { querySelector: (selector: string) => selector === '#binding-status' ? status : selector === '#binding-pill' ? pill : selector === '#binding-retry' ? retry : next },
+    document: { querySelector: (selector: string) => selector === '#binding-status' ? status : selector === '#binding-pill' ? pill : selector === '#binding-retry' ? retry : selector === '#binding-tgw-rank' ? tgw : selector === '#binding-tgw-status' ? tgwStatus : next },
   });
   await settle();
   return {
-    status, pill, pillText, next, retry, replaced, calls, timers, settle,
+    status, pill, pillText, next, retry, replaced, calls, timers, settle, tgw, tgwStatus, attributes,
     async timeout() {
       const timer = [...timers.values()].find(timer => timer.delay === 10000);
       assert.ok(timer, 'a health timeout is pending');
@@ -60,6 +63,30 @@ async function render(hash: string, origin = '', replies: Reply[] = [{}], contro
 
 const hash = `#bind=${'a'.repeat(43)}`;
 const origin = 'https://backend.example';
+
+test('Pages carries a declared T.G.W rank only in the handoff fragment', async () => {
+  const result = await render(hash, origin, [{}], AbortController, '8');
+  assert.equal(result.next.href, `${origin}/${hash}&tgw=8`);
+  assert.match(result.tgwStatus.textContent, /T.G.W 8 级/);
+  assert.equal(result.calls[0].url, `${origin}/healthz`);
+  assert.equal(result.calls[0].options.body, undefined);
+  assert.equal(result.calls.length, 1);
+});
+
+test('invalid rank blocks handoff and editing restores the correct fixed destination', async () => {
+  const result = await render(hash, origin);
+  result.tgw.value = '22';
+  result.tgw.oninput!();
+  assert.equal(result.next.href, '');
+  assert.equal(result.attributes.get('aria-disabled'), 'true');
+  result.tgw.value = '21';
+  result.tgw.oninput!();
+  assert.equal(result.next.href, `${origin}/${hash}&tgw=21`);
+  result.tgw.value = '';
+  result.tgw.oninput!();
+  assert.equal(result.next.href, `${origin}/${hash}`);
+  assert.equal(result.attributes.has('aria-disabled'), false);
+});
 
 test('unconfigured backend never shows a working login link', async () => {
   const result = await render(hash);

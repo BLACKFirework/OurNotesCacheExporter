@@ -7,6 +7,8 @@ const pillText = pill.querySelector<HTMLElement>('span:last-child')!;
 const dot = pill.querySelector<HTMLElement>('.dot')!;
 const next = document.querySelector<HTMLAnchorElement>('#binding-continue')!;
 const retry = document.querySelector<HTMLButtonElement>('#binding-retry')!;
+const tgwRank = document.querySelector<HTMLInputElement>('#binding-tgw-rank');
+const tgwStatus = document.querySelector<HTMLElement>('#binding-tgw-status');
 let checking = false;
 
 function setState(state: BindingState, message: string, label: string): void {
@@ -111,7 +113,23 @@ if (key) {
   } else {
     const backend = new URL(__API_ORIGIN__);
     if (backend.protocol !== 'https:') throw Error('HTTPS backend required');
-    next.href = `${backend.origin}/#bind=${encodeURIComponent(key)}`;
+    const ticket = key;
+    const updateLink = (): void => {
+      const rank = tgwRank?.value.trim() || '';
+      if (rank && !/^(?:[1-9]|1[0-9]|2[01])$/.test(rank)) {
+        next.removeAttribute('href');
+        next.setAttribute('aria-disabled', 'true');
+        if (tgwStatus) tgwStatus.textContent = '请填写 1～21 的整数等级，或留空后在导入页填写。';
+        return;
+      }
+      const params = new URLSearchParams({ bind: ticket });
+      if (rank) params.set('tgw', rank);
+      next.href = `${backend.origin}/#${params}`;
+      next.removeAttribute('aria-disabled');
+      if (tgwStatus) tgwStatus.textContent = rank ? `已填写 T.G.W ${rank} 级，进入读取页时会自动带入。` : '';
+    };
+    if (tgwRank) tgwRank.oninput = updateLink;
+    updateLink();
     retry.onclick = () => { void check(backend.origin); };
     void check(backend.origin);
   }
